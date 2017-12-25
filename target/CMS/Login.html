@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script  src="static/js/jquery.min.js"></script>
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script  src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<img src="static/images/bg.jpg" width="100%" height="100%"/>  
+	<div style="position: absolute;top: 200px; left: 600px;">
+		<form class="form-horizontal" style="width: 400px;" action="login" method="post">
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Name</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="input_name" placeholder="Name" name="userName">
+		    </div>
+		    <span id="username_error" style="position: absolute;color: red;font-size: 17px;top: 10px;width: 200px;visibility: hidden;"></span>
+		  </div>
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Password</label>
+		    <div class="col-sm-10">
+		      <input type="password" class="form-control" id="input_password" placeholder="Password" name="pwd">
+		    </div>
+		    <span id="password_error" style="position: absolute;color: red;font-size: 17px;top: 57px;width: 200px;visibility: hidden;"></span>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-10">
+		      <div class="checkbox">
+		        <label>
+		          <input type="checkbox" name="remember"> Remember me
+		        </label>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-10">
+		      <button type="submit" class="btn btn-default">Sign in</button>
+		    </div>
+		  </div>
+		</form>
+	</div>
+
+<script type="text/javascript">
+
+init();
+function init(){
+	if(getQueryString("msg")==null){
+		return;
+	}else if(getQueryString("msg")=="密码不正确"){
+		document.getElementById("username_error").innerHTML=""
+		document.getElementById("username_error").style.visibility="hidden";
+		document.getElementById("password_error").innerHTML="密码不正确"
+		document.getElementById("password_error").style.visibility="visible";
+	}else{
+		document.getElementById("password_error").innerHTML=""
+		document.getElementById("password_error").style.visibility="hidden";
+		document.getElementById("username_error").innerHTML="账号存在异常"
+		document.getElementById("username_error").style.visibility="visible";
+	}
+}
+function getQueryString(name) { 
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+    var r = window.location.search.substr(1).match(reg); 
+    if (r != null) return decodeURI(r[2]); 
+    return null; 
+}   
+</script>
+</body>
+</html>

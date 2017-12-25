@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.LibrarysMapper">
+  <resultMap id="BaseResultMap" type="com.cms.bean.Librarys">
+    <id column="library_id" jdbcType="INTEGER" property="libraryId" />
+    <result column="library_category_id" jdbcType="INTEGER" property="libraryCategoryId" />
+    <result column="type_id" jdbcType="TINYINT" property="typeId" />
+    <result column="view_type" jdbcType="TINYINT" property="viewType" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="pinyin" jdbcType="VARCHAR" property="pinyin" />
+    <result column="short_title" jdbcType="VARCHAR" property="shortTitle" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="thumb_default" jdbcType="VARCHAR" property="thumbDefault" />
+    <result column="thumb_app_top" jdbcType="VARCHAR" property="thumbAppTop" />
+    <result column="thumb_app_h" jdbcType="VARCHAR" property="thumbAppH" />
+    <result column="thumb_app_w" jdbcType="VARCHAR" property="thumbAppW" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="sort" jdbcType="VARCHAR" property="sort" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    library_id, library_category_id, type_id, view_type, title, pinyin, short_title, 
+    tags, thumb_default, thumb_app_top, thumb_app_h, thumb_app_w,description,sort
+  </sql>
+  <select id="selectByExample" parameterType="com.cms.bean.LibrarysExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cdv_librarys
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cdv_librarys
+    where library_id = #{libraryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cdv_librarys
+    where library_id = #{libraryId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cms.bean.LibrarysExample">
+    delete from cdv_librarys
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cms.bean.Librarys">
+    insert into cdv_librarys (library_id, library_category_id, type_id, 
+      view_type, title, pinyin, 
+      short_title, tags, thumb_default, 
+      thumb_app_top, thumb_app_h, thumb_app_w, 
+      thumb_web_top, thumb_web_h, thumb_web_w, 
+      description, play_time, total_num, 
+      updated_num, is_over, allow_comment, 
+      comment_count, pv, sort, 
+      score, code, status, site_id, 
+      created_at, created_by, updated_at, 
+      updated_by, published_at, published_by, 
+      unpublished_at, unpublished_by, checked_at, 
+      checked_by, locked_at, locked_by
+      )
+    values (#{libraryId,jdbcType=INTEGER}, #{libraryCategoryId,jdbcType=INTEGER}, #{typeId,jdbcType=TINYINT}, 
+      #{viewType,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, #{pinyin,jdbcType=VARCHAR}, 
+      #{shortTitle,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{thumbDefault,jdbcType=VARCHAR}, 
+      #{thumbAppTop,jdbcType=VARCHAR}, #{thumbAppH,jdbcType=VARCHAR}, #{thumbAppW,jdbcType=VARCHAR}, 
+      #{thumbWebTop,jdbcType=VARCHAR}, #{thumbWebH,jdbcType=VARCHAR}, #{thumbWebW,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{playTime,jdbcType=VARCHAR}, #{totalNum,jdbcType=INTEGER}, 
+      #{updatedNum,jdbcType=INTEGER}, #{isOver,jdbcType=BIT}, #{allowComment,jdbcType=BIT}, 
+      #{commentCount,jdbcType=INTEGER}, #{pv,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
+      #{score,jdbcType=TINYINT}, #{code,jdbcType=CHAR}, #{status,jdbcType=BIT}, #{siteId,jdbcType=INTEGER}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=INTEGER}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=INTEGER}, #{publishedAt,jdbcType=TIMESTAMP}, #{publishedBy,jdbcType=INTEGER}, 
+      #{unpublishedAt,jdbcType=TIMESTAMP}, #{unpublishedBy,jdbcType=INTEGER}, #{checkedAt,jdbcType=TIMESTAMP}, 
+      #{checkedBy,jdbcType=INTEGER}, #{lockedAt,jdbcType=TIMESTAMP}, #{lockedBy,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cms.bean.Librarys">
+    insert into cdv_librarys
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="libraryId != null">
+        library_id,
+      </if>
+      <if test="libraryCategoryId != null">
+        library_category_id,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="viewType != null">
+        view_type,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="pinyin != null">
+        pinyin,
+      </if>
+      <if test="shortTitle != null">
+        short_title,
+      </if>
+      <if test="tags != null">
+        tags,
+      </if>
+      <if test="thumbDefault != null">
+        thumb_default,
+      </if>
+      <if test="thumbAppTop != null">
+        thumb_app_top,
+      </if>
+      <if test="thumbAppH != null">
+        thumb_app_h,
+      </if>
+      <if test="thumbAppW != null">
+        thumb_app_w,
+      </if>
+      <if test="thumbWebTop != null">
+        thumb_web_top,
+      </if>
+      <if test="thumbWebH != null">
+        thumb_web_h,
+      </if>
+      <if test="thumbWebW != null">
+        thumb_web_w,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="playTime != null">
+        play_time,
+      </if>
+      <if test="totalNum != null">
+        total_num,
+      </if>
+      <if test="updatedNum != null">
+        updated_num,
+      </if>
+      <if test="isOver != null">
+        is_over,
+      </if>
+      <if test="allowComment != null">
+        allow_comment,
+      </if>
+      <if test="commentCount != null">
+        comment_count,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="siteId != null">
+        site_id,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+      <if test="updatedBy != null">
+        updated_by,
+      </if>
+      <if test="publishedAt != null">
+        published_at,
+      </if>
+      <if test="publishedBy != null">
+        published_by,
+      </if>
+      <if test="unpublishedAt != null">
+        unpublished_at,
+      </if>
+      <if test="unpublishedBy != null">
+        unpublished_by,
+      </if>
+      <if test="checkedAt != null">
+        checked_at,
+      </if>
+      <if test="checkedBy != null">
+        checked_by,
+      </if>
+      <if test="lockedAt != null">
+        locked_at,
+      </if>
+      <if test="lockedBy != null">
+        locked_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="libraryId != null">
+        #{libraryId,jdbcType=INTEGER},
+      </if>
+      <if test="libraryCategoryId != null">
+        #{libraryCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=TINYINT},
+      </if>
+      <if test="viewType != null">
+        #{viewType,jdbcType=TINYINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null">
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="shortTitle != null">
+        #{shortTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbDefault != null">
+        #{thumbDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbAppTop != null">
+        #{thumbAppTop,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbAppH != null">
+        #{thumbAppH,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbAppW != null">
+        #{thumbAppW,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbWebTop != null">
+        #{thumbWebTop,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbWebH != null">
+        #{thumbWebH,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbWebW != null">
+        #{thumbWebW,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="playTime != null">
+        #{playTime,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNum != null">
+        #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="updatedNum != null">
+        #{updatedNum,jdbcType=INTEGER},
+      </if>
+      <if test="isOver != null">
+        #{isOver,jdbcType=BIT},
+      </if>
+      <if test="allowComment != null">
+        #{allowComment,jdbcType=BIT},
+      </if>
+      <if test="commentCount != null">
+        #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="siteId != null">
+        #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=INTEGER},
+      </if>
+      <if test="publishedAt != null">
+        #{publishedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishedBy != null">
+        #{publishedBy,jdbcType=INTEGER},
+      </if>
+      <if test="unpublishedAt != null">
+        #{unpublishedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unpublishedBy != null">
+        #{unpublishedBy,jdbcType=INTEGER},
+      </if>
+      <if test="checkedAt != null">
+        #{checkedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkedBy != null">
+        #{checkedBy,jdbcType=INTEGER},
+      </if>
+      <if test="lockedAt != null">
+        #{lockedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockedBy != null">
+        #{lockedBy,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cms.bean.LibrarysExample" resultType="java.lang.Long">
+    select count(*) from cdv_librarys
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cdv_librarys
+    <set>
+      <if test="record.libraryId != null">
+        library_id = #{record.libraryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.libraryCategoryId != null">
+        library_category_id = #{record.libraryCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=TINYINT},
+      </if>
+      <if test="record.viewType != null">
+        view_type = #{record.viewType,jdbcType=TINYINT},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pinyin != null">
+        pinyin = #{record.pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortTitle != null">
+        short_title = #{record.shortTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tags != null">
+        tags = #{record.tags,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thumbDefault != null">
+        thumb_default = #{record.thumbDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thumbAppTop != null">
+        thumb_app_top = #{record.thumbAppTop,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thumbAppH != null">
+        thumb_app_h = #{record.thumbAppH,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thumbAppW != null">
+        thumb_app_w = #{record.thumbAppW,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thumbWebTop != null">
+        thumb_web_top = #{record.thumbWebTop,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thumbWebH != null">
+        thumb_web_h = #{record.thumbWebH,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thumbWebW != null">
+        thumb_web_w = #{record.thumbWebW,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.playTime != null">
+        play_time = #{record.playTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalNum != null">
+        total_num = #{record.totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatedNum != null">
+        updated_num = #{record.updatedNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.isOver != null">
+        is_over = #{record.isOver,jdbcType=BIT},
+      </if>
+      <if test="record.allowComment != null">
+        allow_comment = #{record.allowComment,jdbcType=BIT},
+      </if>
+      <if test="record.commentCount != null">
+        comment_count = #{record.commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.pv != null">
+        pv = #{record.pv,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=TINYINT},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=CHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=BIT},
+      </if>
+      <if test="record.siteId != null">
+        site_id = #{record.siteId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdAt != null">
+        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdBy != null">
+        created_by = #{record.createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatedAt != null">
+        updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedBy != null">
+        updated_by = #{record.updatedBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.publishedAt != null">
+        published_at = #{record.publishedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.publishedBy != null">
+        published_by = #{record.publishedBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.unpublishedAt != null">
+        unpublished_at = #{record.unpublishedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.unpublishedBy != null">
+        unpublished_by = #{record.unpublishedBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkedAt != null">
+        checked_at = #{record.checkedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkedBy != null">
+        checked_by = #{record.checkedBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.lockedAt != null">
+        locked_at = #{record.lockedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lockedBy != null">
+        locked_by = #{record.lockedBy,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cdv_librarys
+    set library_id = #{record.libraryId,jdbcType=INTEGER},
+      library_category_id = #{record.libraryCategoryId,jdbcType=INTEGER},
+      type_id = #{record.typeId,jdbcType=TINYINT},
+      view_type = #{record.viewType,jdbcType=TINYINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      pinyin = #{record.pinyin,jdbcType=VARCHAR},
+      short_title = #{record.shortTitle,jdbcType=VARCHAR},
+      tags = #{record.tags,jdbcType=VARCHAR},
+      thumb_default = #{record.thumbDefault,jdbcType=VARCHAR},
+      thumb_app_top = #{record.thumbAppTop,jdbcType=VARCHAR},
+      thumb_app_h = #{record.thumbAppH,jdbcType=VARCHAR},
+      thumb_app_w = #{record.thumbAppW,jdbcType=VARCHAR},
+      thumb_web_top = #{record.thumbWebTop,jdbcType=VARCHAR},
+      thumb_web_h = #{record.thumbWebH,jdbcType=VARCHAR},
+      thumb_web_w = #{record.thumbWebW,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      play_time = #{record.playTime,jdbcType=VARCHAR},
+      total_num = #{record.totalNum,jdbcType=INTEGER},
+      updated_num = #{record.updatedNum,jdbcType=INTEGER},
+      is_over = #{record.isOver,jdbcType=BIT},
+      allow_comment = #{record.allowComment,jdbcType=BIT},
+      comment_count = #{record.commentCount,jdbcType=INTEGER},
+      pv = #{record.pv,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=TINYINT},
+      code = #{record.code,jdbcType=CHAR},
+      status = #{record.status,jdbcType=BIT},
+      site_id = #{record.siteId,jdbcType=INTEGER},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      created_by = #{record.createdBy,jdbcType=INTEGER},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      updated_by = #{record.updatedBy,jdbcType=INTEGER},
+      published_at = #{record.publishedAt,jdbcType=TIMESTAMP},
+      published_by = #{record.publishedBy,jdbcType=INTEGER},
+      unpublished_at = #{record.unpublishedAt,jdbcType=TIMESTAMP},
+      unpublished_by = #{record.unpublishedBy,jdbcType=INTEGER},
+      checked_at = #{record.checkedAt,jdbcType=TIMESTAMP},
+      checked_by = #{record.checkedBy,jdbcType=INTEGER},
+      locked_at = #{record.lockedAt,jdbcType=TIMESTAMP},
+      locked_by = #{record.lockedBy,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cms.bean.Librarys">
+    update cdv_librarys
+    <set>
+      <if test="libraryCategoryId != null">
+        library_category_id = #{libraryCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=TINYINT},
+      </if>
+      <if test="viewType != null">
+        view_type = #{viewType,jdbcType=TINYINT},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null">
+        pinyin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="shortTitle != null">
+        short_title = #{shortTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbDefault != null">
+        thumb_default = #{thumbDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbAppTop != null">
+        thumb_app_top = #{thumbAppTop,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbAppH != null">
+        thumb_app_h = #{thumbAppH,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbAppW != null">
+        thumb_app_w = #{thumbAppW,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbWebTop != null">
+        thumb_web_top = #{thumbWebTop,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbWebH != null">
+        thumb_web_h = #{thumbWebH,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbWebW != null">
+        thumb_web_w = #{thumbWebW,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="playTime != null">
+        play_time = #{playTime,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNum != null">
+        total_num = #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="updatedNum != null">
+        updated_num = #{updatedNum,jdbcType=INTEGER},
+      </if>
+      <if test="isOver != null">
+        is_over = #{isOver,jdbcType=BIT},
+      </if>
+      <if test="allowComment != null">
+        allow_comment = #{allowComment,jdbcType=BIT},
+      </if>
+      <if test="commentCount != null">
+        comment_count = #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=TINYINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="siteId != null">
+        site_id = #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null">
+        created_by = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        updated_by = #{updatedBy,jdbcType=INTEGER},
+      </if>
+      <if test="publishedAt != null">
+        published_at = #{publishedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishedBy != null">
+        published_by = #{publishedBy,jdbcType=INTEGER},
+      </if>
+      <if test="unpublishedAt != null">
+        unpublished_at = #{unpublishedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unpublishedBy != null">
+        unpublished_by = #{unpublishedBy,jdbcType=INTEGER},
+      </if>
+      <if test="checkedAt != null">
+        checked_at = #{checkedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkedBy != null">
+        checked_by = #{checkedBy,jdbcType=INTEGER},
+      </if>
+      <if test="lockedAt != null">
+        locked_at = #{lockedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockedBy != null">
+        locked_by = #{lockedBy,jdbcType=INTEGER},
+      </if>
+    </set>
+    where library_id = #{libraryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cms.bean.Librarys">
+    update cdv_librarys
+    set library_category_id = #{libraryCategoryId,jdbcType=INTEGER},
+      type_id = #{typeId,jdbcType=TINYINT},
+      view_type = #{viewType,jdbcType=TINYINT},
+      title = #{title,jdbcType=VARCHAR},
+      pinyin = #{pinyin,jdbcType=VARCHAR},
+      short_title = #{shortTitle,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      thumb_default = #{thumbDefault,jdbcType=VARCHAR},
+      thumb_app_top = #{thumbAppTop,jdbcType=VARCHAR},
+      thumb_app_h = #{thumbAppH,jdbcType=VARCHAR},
+      thumb_app_w = #{thumbAppW,jdbcType=VARCHAR},
+      thumb_web_top = #{thumbWebTop,jdbcType=VARCHAR},
+      thumb_web_h = #{thumbWebH,jdbcType=VARCHAR},
+      thumb_web_w = #{thumbWebW,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      play_time = #{playTime,jdbcType=VARCHAR},
+      total_num = #{totalNum,jdbcType=INTEGER},
+      updated_num = #{updatedNum,jdbcType=INTEGER},
+      is_over = #{isOver,jdbcType=BIT},
+      allow_comment = #{allowComment,jdbcType=BIT},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      pv = #{pv,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      score = #{score,jdbcType=TINYINT},
+      code = #{code,jdbcType=CHAR},
+      status = #{status,jdbcType=BIT},
+      site_id = #{siteId,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=INTEGER},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=INTEGER},
+      published_at = #{publishedAt,jdbcType=TIMESTAMP},
+      published_by = #{publishedBy,jdbcType=INTEGER},
+      unpublished_at = #{unpublishedAt,jdbcType=TIMESTAMP},
+      unpublished_by = #{unpublishedBy,jdbcType=INTEGER},
+      checked_at = #{checkedAt,jdbcType=TIMESTAMP},
+      checked_by = #{checkedBy,jdbcType=INTEGER},
+      locked_at = #{lockedAt,jdbcType=TIMESTAMP},
+      locked_by = #{lockedBy,jdbcType=INTEGER}
+    where library_id = #{libraryId,jdbcType=INTEGER}
+  </update>
+</mapper>

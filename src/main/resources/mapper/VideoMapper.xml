@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.VideoMapper">
+  <resultMap id="BaseResultMap" type="com.cms.bean.Video">
+    <id column="video_id" jdbcType="INTEGER" property="videoId" />
+    <result column="video_name" jdbcType="VARCHAR" property="videoName" />
+    <result column="video_src" jdbcType="VARCHAR" property="videoSrc" />
+    <result column="knowledge_id" jdbcType="INTEGER" property="knowledgeId" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="clarity" jdbcType="VARCHAR" property="clarity" />
+    <result column="code_check" jdbcType="VARCHAR" property="codeCheck" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="duration" jdbcType="VARCHAR" property="duration" />
+    <result column="picture" jdbcType="VARCHAR" property="picture" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMap_WithKonwledgeAndSubjectAndGrade" type="com.cms.bean.Video">
+    <id column="video_id" jdbcType="INTEGER" property="videoId" />
+    <result column="video_name" jdbcType="VARCHAR" property="videoName" />
+    <result column="video_src" jdbcType="VARCHAR" property="videoSrc" />
+    <result column="knowledge_id" jdbcType="INTEGER" property="knowledgeId" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="clarity" jdbcType="VARCHAR" property="clarity" />
+    <result column="code_check" jdbcType="VARCHAR" property="codeCheck" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="duration" jdbcType="VARCHAR" property="duration" />
+    <result column="picture" jdbcType="VARCHAR" property="picture" />
+    <association property="konwledge_point" javaType="com.cms.bean.Knowledge_point">
+    	<result column="knowledge_name" property="knowledgeName"/>
+    </association>
+    <association property="subject" javaType="com.cms.bean.Subject">
+    	<result column="subject_id" property="subjectId"/>
+    	<result column="subject_name" property="subjectName"/>
+    </association>
+    <association property="grade" javaType="com.cms.bean.Grade">
+    	<result column="grade_id" property="gradeId"/>
+    	<result column="grade_name" property="gradeName"/>
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    video_id, video_name, video_src, knowledge_id, sort, clarity, code_check, introduction, 
+    duration, picture
+  </sql>
+  <sql id="Base_Column_List_WithKonwledgeAndSubjectAndGrade">
+    v.video_id,v.video_name,v.video_src,v.knowledge_id,v.sort, v.clarity, v.code_check,v.duration, v.picture,
+    v.introduction,k.knowledge_name,s.subject_name,s.subject_id,g.grade_name,g.grade_id
+  </sql>
+  
+  <select id="selectByExample_WithKonwledgeAndSubjectAndGrade" parameterType="com.cms.bean.VideoExample" resultMap="BaseResultMap_WithKonwledgeAndSubjectAndGrade">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List_WithKonwledgeAndSubjectAndGrade" />
+    FROM video v LEFT JOIN knowledge_point k ON v.knowledge_id=k.knowledge_id LEFT JOIN `subject` s ON k.subject_id=s.subject_id LEFT JOIN grade g ON s.grade_id=g.grade_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  <select id="selectByExample" parameterType="com.cms.bean.VideoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from video
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  <select id="selectByPrimaryKey_WithKonwledgeAndSubjectAndGrade" parameterType="java.lang.Integer" resultMap="BaseResultMap_WithKonwledgeAndSubjectAndGrade">
+    select 
+    <include refid="Base_Column_List_WithKonwledgeAndSubjectAndGrade" />
+    FROM video v LEFT JOIN knowledge_point k ON v.knowledge_id=k.knowledge_id LEFT JOIN `subject` s ON k.subject_id=s.subject_id LEFT JOIN grade g ON s.grade_id=g.grade_id
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from video
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from video
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cms.bean.VideoExample">
+    delete from video
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cms.bean.Video">
+    insert into video (video_id, video_name, video_src, 
+      knowledge_id, sort, clarity, 
+      code_check, introduction, duration, 
+      picture)
+    values (#{videoId,jdbcType=INTEGER}, #{videoName,jdbcType=VARCHAR}, #{videoSrc,jdbcType=VARCHAR}, 
+      #{knowledgeId,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{clarity,jdbcType=VARCHAR}, 
+      #{codeCheck,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, #{duration,jdbcType=VARCHAR}, 
+      #{picture,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cms.bean.Video">
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="videoId != null">
+        video_id,
+      </if>
+      <if test="videoName != null">
+        video_name,
+      </if>
+      <if test="videoSrc != null">
+        video_src,
+      </if>
+      <if test="knowledgeId != null">
+        knowledge_id,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="clarity != null">
+        clarity,
+      </if>
+      <if test="codeCheck != null">
+        code_check,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="picture != null">
+        picture,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="videoId != null">
+        #{videoId,jdbcType=INTEGER},
+      </if>
+      <if test="videoName != null">
+        #{videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoSrc != null">
+        #{videoSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgeId != null">
+        #{knowledgeId,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="clarity != null">
+        #{clarity,jdbcType=VARCHAR},
+      </if>
+      <if test="codeCheck != null">
+        #{codeCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null">
+        #{picture,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cms.bean.VideoExample" resultType="java.lang.Long">
+    select count(*) from video
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update video
+    <set>
+      <if test="record.videoId != null">
+        video_id = #{record.videoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.videoName != null">
+        video_name = #{record.videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.videoSrc != null">
+        video_src = #{record.videoSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.knowledgeId != null">
+        knowledge_id = #{record.knowledgeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.clarity != null">
+        clarity = #{record.clarity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.codeCheck != null">
+        code_check = #{record.codeCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="record.introduction != null">
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.duration != null">
+        duration = #{record.duration,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picture != null">
+        picture = #{record.picture,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update video
+    set video_id = #{record.videoId,jdbcType=INTEGER},
+      video_name = #{record.videoName,jdbcType=VARCHAR},
+      video_src = #{record.videoSrc,jdbcType=VARCHAR},
+      knowledge_id = #{record.knowledgeId,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      clarity = #{record.clarity,jdbcType=VARCHAR},
+      code_check = #{record.codeCheck,jdbcType=VARCHAR},
+      introduction = #{record.introduction,jdbcType=VARCHAR},
+      duration = #{record.duration,jdbcType=VARCHAR},
+      picture = #{record.picture,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cms.bean.Video">
+    update video
+    <set>
+      <if test="videoName != null">
+        video_name = #{videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoSrc != null">
+        video_src = #{videoSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgeId != null">
+        knowledge_id = #{knowledgeId,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="clarity != null">
+        clarity = #{clarity,jdbcType=VARCHAR},
+      </if>
+      <if test="codeCheck != null">
+        code_check = #{codeCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null">
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cms.bean.Video">
+    update video
+    set video_name = #{videoName,jdbcType=VARCHAR},
+      video_src = #{videoSrc,jdbcType=VARCHAR},
+      knowledge_id = #{knowledgeId,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      clarity = #{clarity,jdbcType=VARCHAR},
+      code_check = #{codeCheck,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR}
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </update>
+</mapper>

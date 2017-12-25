@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.Library_detailsMapper">
+  <resultMap id="BaseResultMap" type="com.cms.bean.Library_details">
+    <id column="library_detail_id" jdbcType="INTEGER" property="libraryDetailId" />
+    <result column="library_id" jdbcType="INTEGER" property="libraryId" />
+    <result column="dramatitle" jdbcType="VARCHAR" property="dramatitle" />
+    <result column="video" jdbcType="VARCHAR" property="video" />
+    <result column="mdstring" jdbcType="CHAR" property="mdstring" />
+    <result column="movie_type" jdbcType="CHAR" property="movieType" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="detail_sort" jdbcType="INTEGER" property="detailSort" />
+    <result column="chapter" jdbcType="INTEGER" property="chapter" />
+    <result column="playtime" jdbcType="VARCHAR" property="playtime" />
+    <result column="director" jdbcType="VARCHAR" property="director" />
+    <result column="actors" jdbcType="VARCHAR" property="actors" />
+    <result column="code" jdbcType="CHAR" property="code" />
+    <result column="asset_id" jdbcType="VARCHAR" property="assetId" />
+    <result column="genre" jdbcType="VARCHAR" property="genre" />
+    <result column="season" jdbcType="VARCHAR" property="season" />
+    <result column="subtitle_language" jdbcType="VARCHAR" property="subtitleLanguage" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="writers" jdbcType="VARCHAR" property="writers" />
+    <result column="provider" jdbcType="VARCHAR" property="provider" />
+    <result column="host" jdbcType="VARCHAR" property="host" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="ios_addr" jdbcType="VARCHAR" property="iosAddr" />
+    <result column="android_addr" jdbcType="VARCHAR" property="androidAddr" />
+    <result column="web_addr" jdbcType="VARCHAR" property="webAddr" />
+    <result column="live_status" jdbcType="CHAR" property="liveStatus" />
+    <result column="isdelete" jdbcType="INTEGER" property="isdelete" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cms.bean.Library_detailsWithBLOBs">
+    <result column="playurl" jdbcType="LONGVARCHAR" property="playurl" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    library_detail_id, library_id, dramatitle, video, mdstring, movie_type, image, detail_sort, 
+    chapter, playtime, director, actors, code, asset_id, genre, season, subtitle_language, 
+    area, writers, provider, host, year, ios_addr, android_addr, web_addr, live_status, 
+    isdelete
+  </sql>
+  <sql id="Blob_Column_List">
+    playurl, note
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.cms.bean.Library_detailsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cdv_library_details
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.cms.bean.Library_detailsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cdv_library_details
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cdv_library_details
+    where library_detail_id = #{libraryDetailId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cdv_library_details
+    where library_detail_id = #{libraryDetailId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cms.bean.Library_detailsExample">
+    delete from cdv_library_details
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cms.bean.Library_detailsWithBLOBs">
+    insert into cdv_library_details (library_detail_id, library_id, dramatitle, 
+      video, mdstring, movie_type, 
+      image, detail_sort, chapter, 
+      playtime, director, actors, 
+      code, asset_id, genre, 
+      season, subtitle_language, area, 
+      writers, provider, host, 
+      year, ios_addr, android_addr, 
+      web_addr, live_status, isdelete, 
+      playurl, note)
+    values (#{libraryDetailId,jdbcType=INTEGER}, #{libraryId,jdbcType=INTEGER}, #{dramatitle,jdbcType=VARCHAR}, 
+      #{video,jdbcType=VARCHAR}, #{mdstring,jdbcType=CHAR}, #{movieType,jdbcType=CHAR}, 
+      #{image,jdbcType=VARCHAR}, #{detailSort,jdbcType=INTEGER}, #{chapter,jdbcType=INTEGER}, 
+      #{playtime,jdbcType=VARCHAR}, #{director,jdbcType=VARCHAR}, #{actors,jdbcType=VARCHAR}, 
+      #{code,jdbcType=CHAR}, #{assetId,jdbcType=VARCHAR}, #{genre,jdbcType=VARCHAR}, 
+      #{season,jdbcType=VARCHAR}, #{subtitleLanguage,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
+      #{writers,jdbcType=VARCHAR}, #{provider,jdbcType=VARCHAR}, #{host,jdbcType=VARCHAR}, 
+      #{year,jdbcType=VARCHAR}, #{iosAddr,jdbcType=VARCHAR}, #{androidAddr,jdbcType=VARCHAR}, 
+      #{webAddr,jdbcType=VARCHAR}, #{liveStatus,jdbcType=CHAR}, #{isdelete,jdbcType=INTEGER}, 
+      #{playurl,jdbcType=LONGVARCHAR}, #{note,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cms.bean.Library_detailsWithBLOBs">
+    insert into cdv_library_details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="libraryDetailId != null">
+        library_detail_id,
+      </if>
+      <if test="libraryId != null">
+        library_id,
+      </if>
+      <if test="dramatitle != null">
+        dramatitle,
+      </if>
+      <if test="video != null">
+        video,
+      </if>
+      <if test="mdstring != null">
+        mdstring,
+      </if>
+      <if test="movieType != null">
+        movie_type,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="detailSort != null">
+        detail_sort,
+      </if>
+      <if test="chapter != null">
+        chapter,
+      </if>
+      <if test="playtime != null">
+        playtime,
+      </if>
+      <if test="director != null">
+        director,
+      </if>
+      <if test="actors != null">
+        actors,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="assetId != null">
+        asset_id,
+      </if>
+      <if test="genre != null">
+        genre,
+      </if>
+      <if test="season != null">
+        season,
+      </if>
+      <if test="subtitleLanguage != null">
+        subtitle_language,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="writers != null">
+        writers,
+      </if>
+      <if test="provider != null">
+        provider,
+      </if>
+      <if test="host != null">
+        host,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="iosAddr != null">
+        ios_addr,
+      </if>
+      <if test="androidAddr != null">
+        android_addr,
+      </if>
+      <if test="webAddr != null">
+        web_addr,
+      </if>
+      <if test="liveStatus != null">
+        live_status,
+      </if>
+      <if test="isdelete != null">
+        isdelete,
+      </if>
+      <if test="playurl != null">
+        playurl,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="libraryDetailId != null">
+        #{libraryDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="libraryId != null">
+        #{libraryId,jdbcType=INTEGER},
+      </if>
+      <if test="dramatitle != null">
+        #{dramatitle,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null">
+        #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="mdstring != null">
+        #{mdstring,jdbcType=CHAR},
+      </if>
+      <if test="movieType != null">
+        #{movieType,jdbcType=CHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="detailSort != null">
+        #{detailSort,jdbcType=INTEGER},
+      </if>
+      <if test="chapter != null">
+        #{chapter,jdbcType=INTEGER},
+      </if>
+      <if test="playtime != null">
+        #{playtime,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="actors != null">
+        #{actors,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=CHAR},
+      </if>
+      <if test="assetId != null">
+        #{assetId,jdbcType=VARCHAR},
+      </if>
+      <if test="genre != null">
+        #{genre,jdbcType=VARCHAR},
+      </if>
+      <if test="season != null">
+        #{season,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitleLanguage != null">
+        #{subtitleLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="writers != null">
+        #{writers,jdbcType=VARCHAR},
+      </if>
+      <if test="provider != null">
+        #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="host != null">
+        #{host,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="iosAddr != null">
+        #{iosAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="androidAddr != null">
+        #{androidAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="webAddr != null">
+        #{webAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="liveStatus != null">
+        #{liveStatus,jdbcType=CHAR},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="playurl != null">
+        #{playurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cms.bean.Library_detailsExample" resultType="java.lang.Long">
+    select count(*) from cdv_library_details
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cdv_library_details
+    <set>
+      <if test="record.libraryDetailId != null">
+        library_detail_id = #{record.libraryDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="record.libraryId != null">
+        library_id = #{record.libraryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dramatitle != null">
+        dramatitle = #{record.dramatitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.video != null">
+        video = #{record.video,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mdstring != null">
+        mdstring = #{record.mdstring,jdbcType=CHAR},
+      </if>
+      <if test="record.movieType != null">
+        movie_type = #{record.movieType,jdbcType=CHAR},
+      </if>
+      <if test="record.image != null">
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailSort != null">
+        detail_sort = #{record.detailSort,jdbcType=INTEGER},
+      </if>
+      <if test="record.chapter != null">
+        chapter = #{record.chapter,jdbcType=INTEGER},
+      </if>
+      <if test="record.playtime != null">
+        playtime = #{record.playtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.director != null">
+        director = #{record.director,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actors != null">
+        actors = #{record.actors,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=CHAR},
+      </if>
+      <if test="record.assetId != null">
+        asset_id = #{record.assetId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.genre != null">
+        genre = #{record.genre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.season != null">
+        season = #{record.season,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subtitleLanguage != null">
+        subtitle_language = #{record.subtitleLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.area != null">
+        area = #{record.area,jdbcType=VARCHAR},
+      </if>
+      <if test="record.writers != null">
+        writers = #{record.writers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provider != null">
+        provider = #{record.provider,jdbcType=VARCHAR},
+      </if>
+      <if test="record.host != null">
+        host = #{record.host,jdbcType=VARCHAR},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iosAddr != null">
+        ios_addr = #{record.iosAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.androidAddr != null">
+        android_addr = #{record.androidAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.webAddr != null">
+        web_addr = #{record.webAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveStatus != null">
+        live_status = #{record.liveStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.isdelete != null">
+        isdelete = #{record.isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.playurl != null">
+        playurl = #{record.playurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.note != null">
+        note = #{record.note,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update cdv_library_details
+    set library_detail_id = #{record.libraryDetailId,jdbcType=INTEGER},
+      library_id = #{record.libraryId,jdbcType=INTEGER},
+      dramatitle = #{record.dramatitle,jdbcType=VARCHAR},
+      video = #{record.video,jdbcType=VARCHAR},
+      mdstring = #{record.mdstring,jdbcType=CHAR},
+      movie_type = #{record.movieType,jdbcType=CHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      detail_sort = #{record.detailSort,jdbcType=INTEGER},
+      chapter = #{record.chapter,jdbcType=INTEGER},
+      playtime = #{record.playtime,jdbcType=VARCHAR},
+      director = #{record.director,jdbcType=VARCHAR},
+      actors = #{record.actors,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=CHAR},
+      asset_id = #{record.assetId,jdbcType=VARCHAR},
+      genre = #{record.genre,jdbcType=VARCHAR},
+      season = #{record.season,jdbcType=VARCHAR},
+      subtitle_language = #{record.subtitleLanguage,jdbcType=VARCHAR},
+      area = #{record.area,jdbcType=VARCHAR},
+      writers = #{record.writers,jdbcType=VARCHAR},
+      provider = #{record.provider,jdbcType=VARCHAR},
+      host = #{record.host,jdbcType=VARCHAR},
+      year = #{record.year,jdbcType=VARCHAR},
+      ios_addr = #{record.iosAddr,jdbcType=VARCHAR},
+      android_addr = #{record.androidAddr,jdbcType=VARCHAR},
+      web_addr = #{record.webAddr,jdbcType=VARCHAR},
+      live_status = #{record.liveStatus,jdbcType=CHAR},
+      isdelete = #{record.isdelete,jdbcType=INTEGER},
+      playurl = #{record.playurl,jdbcType=LONGVARCHAR},
+      note = #{record.note,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cdv_library_details
+    set library_detail_id = #{record.libraryDetailId,jdbcType=INTEGER},
+      library_id = #{record.libraryId,jdbcType=INTEGER},
+      dramatitle = #{record.dramatitle,jdbcType=VARCHAR},
+      video = #{record.video,jdbcType=VARCHAR},
+      mdstring = #{record.mdstring,jdbcType=CHAR},
+      movie_type = #{record.movieType,jdbcType=CHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      detail_sort = #{record.detailSort,jdbcType=INTEGER},
+      chapter = #{record.chapter,jdbcType=INTEGER},
+      playtime = #{record.playtime,jdbcType=VARCHAR},
+      director = #{record.director,jdbcType=VARCHAR},
+      actors = #{record.actors,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=CHAR},
+      asset_id = #{record.assetId,jdbcType=VARCHAR},
+      genre = #{record.genre,jdbcType=VARCHAR},
+      season = #{record.season,jdbcType=VARCHAR},
+      subtitle_language = #{record.subtitleLanguage,jdbcType=VARCHAR},
+      area = #{record.area,jdbcType=VARCHAR},
+      writers = #{record.writers,jdbcType=VARCHAR},
+      provider = #{record.provider,jdbcType=VARCHAR},
+      host = #{record.host,jdbcType=VARCHAR},
+      year = #{record.year,jdbcType=VARCHAR},
+      ios_addr = #{record.iosAddr,jdbcType=VARCHAR},
+      android_addr = #{record.androidAddr,jdbcType=VARCHAR},
+      web_addr = #{record.webAddr,jdbcType=VARCHAR},
+      live_status = #{record.liveStatus,jdbcType=CHAR},
+      isdelete = #{record.isdelete,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cms.bean.Library_detailsWithBLOBs">
+    update cdv_library_details
+    <set>
+      <if test="libraryId != null">
+        library_id = #{libraryId,jdbcType=INTEGER},
+      </if>
+      <if test="dramatitle != null">
+        dramatitle = #{dramatitle,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null">
+        video = #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="mdstring != null">
+        mdstring = #{mdstring,jdbcType=CHAR},
+      </if>
+      <if test="movieType != null">
+        movie_type = #{movieType,jdbcType=CHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="detailSort != null">
+        detail_sort = #{detailSort,jdbcType=INTEGER},
+      </if>
+      <if test="chapter != null">
+        chapter = #{chapter,jdbcType=INTEGER},
+      </if>
+      <if test="playtime != null">
+        playtime = #{playtime,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        director = #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="actors != null">
+        actors = #{actors,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=CHAR},
+      </if>
+      <if test="assetId != null">
+        asset_id = #{assetId,jdbcType=VARCHAR},
+      </if>
+      <if test="genre != null">
+        genre = #{genre,jdbcType=VARCHAR},
+      </if>
+      <if test="season != null">
+        season = #{season,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitleLanguage != null">
+        subtitle_language = #{subtitleLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="writers != null">
+        writers = #{writers,jdbcType=VARCHAR},
+      </if>
+      <if test="provider != null">
+        provider = #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="host != null">
+        host = #{host,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        year = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="iosAddr != null">
+        ios_addr = #{iosAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="androidAddr != null">
+        android_addr = #{androidAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="webAddr != null">
+        web_addr = #{webAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="liveStatus != null">
+        live_status = #{liveStatus,jdbcType=CHAR},
+      </if>
+      <if test="isdelete != null">
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="playurl != null">
+        playurl = #{playurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where library_detail_id = #{libraryDetailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cms.bean.Library_detailsWithBLOBs">
+    update cdv_library_details
+    set library_id = #{libraryId,jdbcType=INTEGER},
+      dramatitle = #{dramatitle,jdbcType=VARCHAR},
+      video = #{video,jdbcType=VARCHAR},
+      mdstring = #{mdstring,jdbcType=CHAR},
+      movie_type = #{movieType,jdbcType=CHAR},
+      image = #{image,jdbcType=VARCHAR},
+      detail_sort = #{detailSort,jdbcType=INTEGER},
+      chapter = #{chapter,jdbcType=INTEGER},
+      playtime = #{playtime,jdbcType=VARCHAR},
+      director = #{director,jdbcType=VARCHAR},
+      actors = #{actors,jdbcType=VARCHAR},
+      code = #{code,jdbcType=CHAR},
+      asset_id = #{assetId,jdbcType=VARCHAR},
+      genre = #{genre,jdbcType=VARCHAR},
+      season = #{season,jdbcType=VARCHAR},
+      subtitle_language = #{subtitleLanguage,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      writers = #{writers,jdbcType=VARCHAR},
+      provider = #{provider,jdbcType=VARCHAR},
+      host = #{host,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
+      ios_addr = #{iosAddr,jdbcType=VARCHAR},
+      android_addr = #{androidAddr,jdbcType=VARCHAR},
+      web_addr = #{webAddr,jdbcType=VARCHAR},
+      live_status = #{liveStatus,jdbcType=CHAR},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      playurl = #{playurl,jdbcType=LONGVARCHAR},
+      note = #{note,jdbcType=LONGVARCHAR}
+    where library_detail_id = #{libraryDetailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cms.bean.Library_details">
+    update cdv_library_details
+    set library_id = #{libraryId,jdbcType=INTEGER},
+      dramatitle = #{dramatitle,jdbcType=VARCHAR},
+      video = #{video,jdbcType=VARCHAR},
+      mdstring = #{mdstring,jdbcType=CHAR},
+      movie_type = #{movieType,jdbcType=CHAR},
+      image = #{image,jdbcType=VARCHAR},
+      detail_sort = #{detailSort,jdbcType=INTEGER},
+      chapter = #{chapter,jdbcType=INTEGER},
+      playtime = #{playtime,jdbcType=VARCHAR},
+      director = #{director,jdbcType=VARCHAR},
+      actors = #{actors,jdbcType=VARCHAR},
+      code = #{code,jdbcType=CHAR},
+      asset_id = #{assetId,jdbcType=VARCHAR},
+      genre = #{genre,jdbcType=VARCHAR},
+      season = #{season,jdbcType=VARCHAR},
+      subtitle_language = #{subtitleLanguage,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      writers = #{writers,jdbcType=VARCHAR},
+      provider = #{provider,jdbcType=VARCHAR},
+      host = #{host,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
+      ios_addr = #{iosAddr,jdbcType=VARCHAR},
+      android_addr = #{androidAddr,jdbcType=VARCHAR},
+      web_addr = #{webAddr,jdbcType=VARCHAR},
+      live_status = #{liveStatus,jdbcType=CHAR},
+      isdelete = #{isdelete,jdbcType=INTEGER}
+    where library_detail_id = #{libraryDetailId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	<!-- 配置shiro的注解 -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" 
+	depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager"/>
+	</bean>
+	<!-- 未认证或未授权时跳转必须在springmvc里面配，spring-shiro里的shirofilter配不生效 -->
+    <bean
+        class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <!--表示捕获的异常 -->
+                <prop key="org.apache.shiro.authz.UnauthorizedException">
+                    <!--捕获该异常时跳转的路径 -->
+                    /error.html
+                </prop>
+                <!--表示捕获的异常 -->
+                <prop key="org.apache.shiro.authz.UnauthenticatedException">
+                    <!--捕获该异常时跳转的路径 -->
+                    /Login.html
+                </prop>
+            </props>
+        </property>
+    </bean>
+	<context:component-scan base-package="com.cms" use-default-filters="false">
+		<!-- 只掃描控制器 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+	<!-- 配置视图解析器：如何把方法返回值解析为实际的物理视图 -->
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/"></property>
+		<property name="suffix" value=".html"></property>
+	</bean> -->
+
+	<!-- 防止ajax请求控制器中的方法中文乱码 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"> 
+	  <property name="messageConverters"> 
+	    <list> 
+	      <bean class="org.springframework.http.converter.StringHttpMessageConverter"> 
+	        <property name="supportedMediaTypes"> 
+	          <list> 
+	            <bean class="org.springframework.http.MediaType"> 
+	              <constructor-arg index="0" value="text"/>  
+	              <constructor-arg index="1" value="json"/>  
+	              <constructor-arg index="2" value="UTF-8"/> 
+	            </bean> 
+	          </list> 
+	        </property> 
+	      </bean> 
+	    </list> 
+	  </property> 
+	</bean>
+
+	<!-- 将mvc不能处理的交给tomcat -->
+	<mvc:default-servlet-handler/>
+	<!-- 支持springmvc更高级的功能 -->
+	<mvc:annotation-driven/>
+	
+</beans>
